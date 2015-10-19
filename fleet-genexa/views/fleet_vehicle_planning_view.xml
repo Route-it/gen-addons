@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<!--         <record model="ir.ui.view" id="fleet_vehicle_search"> -->
+<!--             <field name="name">fleet.vehicle.planning.search</field> -->
+<!--             <field name="model">fleet.vehicle.planning</field> -->
+<!--             <field name="arch" type="xml"> -->
+<!--                 <search string="All vehicles"> -->
+<!--                     <field name="fleet_vehicle_id" /> -->
+<!--                     filter_domain="['|', ('name','ilike',self), ('license_plate','ilike',self)]" string="Vehicle"/> -->
+<!--                     <field name="date_start"/> -->
+<!--                     <field name="date_search_end"/> -->
+<!--                     <field name="location"/> -->
+<!--                     <field name="state_id" /> -->
+<!--                     <group expand="1" string="Group By"> -->
+<!--                         <filter name="groupby_status" context="{'group_by' : 'state_id'}" string="Status"/> -->
+<!--                         <filter name="groupby_model" context="{'group_by' : 'model_id'}" string="Model"/> -->
+<!--                     </group> -->
+<!--                </search> -->
+<!--             </field> -->
+<!--         </record> -->
+
+        <record model='ir.ui.view' id='fleet_vehicle_planning_tree'>
+            <field name="name">Lista de Planificacion de Vehiculos</field>
+            <field name="model">fleet.vehicle.planning</field>
+            <field name="arch" type="xml">
+                <tree string="Planificacion">
+					<field name="fleet_vehicle_id" string="Vehiculo"/>
+                    <field name="date_start" string="Fecha de inicio"/>
+                    <field name="duration_days" string="Duracion (dias)"/>
+                </tree>
+            </field>
+        </record>
+        
+		<record model='ir.ui.view' id='fleet_vehicle_planning_form'>
+            <field name="name">Planificacion de vehiculo</field>
+            <field name="model">fleet.vehicle.planning</field>
+            <field name="arch" type="xml">
+                <form string="Planificacion">
+                    <sheet>
+                        <group string="Datos de Planificacion">
+                            <group >
+                                <label for="fleet_vehicle_id"/>
+                            	<div>
+	                                 <field name="fleet_vehicle_id" string="Vehiculo"/>
+                            	</div>
+                                <label for="date_start"/> 
+                            	<div>
+    	                            <field name="date_start" string="Fecha Inicio"/>
+                            	</div>
+                            	<label for="duration_days"/>
+                            	<div>
+        	                    	<field name="duration_days" string="Duracion (Dias)"/>
+                            	</div>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+		<record model='ir.ui.view' id='fleet_vehicle_planning_calendar'>
+            <field name="name">Calendario de planificaciones</field>
+            <field name="model">fleet.vehicle.planning</field>
+            <field name="arch" type="xml">
+                 <calendar string="Planificacion de Flota" all_day="all_day" event_open_popup="True" 
+                 			color="fleet_vehicle_id" date_start="date_start" 
+                 			date_delay="duration_days_calendar"
+                 			display="Vehiculo [fleet_vehicle_id] ;  Dias [duration_days]" >
+	                <field name="fleet_vehicle_id"/>
+    	            <field name="duration_days_calendar"/>
+    	            <field name="duration_days"/>
+                </calendar>
+            
+			</field>
+		</record>        
+        
+    </data>
+</openerp>

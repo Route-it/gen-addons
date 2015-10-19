@@ -1,0 +1,102 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* fleet-genexa
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-05 21:16+0000\n"
+"PO-Revision-Date: 2015-10-05 21:16+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: fleet-genexa
+#: field:fleet.vehicle.planning,create_uid:0
+msgid "Created by"
+msgstr "Creado Por"
+
+#. module: fleet-genexa
+#: field:fleet.vehicle.planning,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: fleet-genexa
+#: view:fleet.vehicle.planning:fleet-genexa.fleet_vehicle_planning_form
+msgid "Duracion (Dias)"
+msgstr "Duracion (Dias)"
+
+#. module: fleet-genexa
+#: view:fleet.vehicle.planning:fleet-genexa.fleet_vehicle_planning_tree
+msgid "Duracion (dias)"
+msgstr "Duracion (dias)"
+
+#. module: fleet-genexa
+#: field:fleet.vehicle.planning,duration_days:0
+msgid "Duracion en dias"
+msgstr "Duracion en dias"
+
+#. module: fleet-genexa
+#: view:fleet.vehicle.planning:fleet-genexa.fleet_vehicle_planning_form
+#: field:fleet.vehicle.planning,date_start:0
+msgid "Fecha Inicio"
+msgstr "Fecha Inicio"
+
+#. module: fleet-genexa
+#: view:fleet.vehicle.planning:fleet-genexa.fleet_vehicle_planning_tree
+msgid "Fecha de inicio"
+msgstr "Fecha de inicio"
+
+#. module: fleet-genexa
+#: field:fleet.vehicle.planning,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: fleet-genexa
+#: field:fleet.vehicle.planning,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: fleet-genexa
+#: field:fleet.vehicle.planning,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: fleet-genexa
+#: view:fleet.vehicle.planning:fleet-genexa.fleet_vehicle_planning_tree
+msgid "Models"
+msgstr "Models"
+
+#. module: fleet-genexa
+#: view:fleet.vehicle.planning:fleet-genexa.fleet_vehicle_planning_form
+msgid "Planificacion"
+msgstr "Planificacion"
+
+#. module: fleet-genexa
+#: model:ir.actions.act_window,name:fleet-genexa.fleet_vehicle_planning_act
+#: model:ir.ui.menu,name:fleet-genexa.fleet_vehicle_planning_menu
+msgid "Planificacion de Vehiculos"
+msgstr "Planificacion de Vehiculos"
+
+#. module: fleet-genexa
+#: model:ir.model,name:fleet-genexa.model_fleet_vehicle_planning
+msgid "Planificacion de vehiculos"
+msgstr "Planificacion de vehiculos"
+
+#. module: fleet-genexa
+#: view:fleet.vehicle.planning:fleet-genexa.fleet_vehicle_planning_form
+#: view:fleet.vehicle.planning:fleet-genexa.fleet_vehicle_planning_tree
+#: field:fleet.vehicle.planning,fleet_vehicle_id:0
+msgid "Vehiculo"
+msgstr "Vehiculo"
+
+#. module: fleet-genexa
+#: help:fleet.vehicle.planning,duration_days:0
+#: help:fleet.vehicle.planning,fleet_vehicle_id:0
+msgid "ayuda"
+msgstr "ayuda"
+

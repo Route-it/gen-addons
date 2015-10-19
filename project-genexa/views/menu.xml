@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="open_view_project_all" model="ir.actions.act_window">
+            <field name="name">Projectos</field>
+            <field name="res_model">project.project</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="project.view_project_kanban"/>
+            <field name="domain">[]</field>
+            <field name="view_mode">kanban,tree,form,gantt,graph</field>
+            <field name="search_view_id" ref="project-genexa.view_project_project_filter"/>
+            <field name="context">{'search_default_Current': 1}</field>
+        </record>
+
+        <record id="open_view_template_project" model="ir.actions.act_window">
+            <field name="name">Templates of Projects</field>
+            <field name="res_model">project.project</field>
+            <field name="view_type">form</field>
+            <field name="domain" >[('state','=','cerrado')]</field>
+            <field name="view_id" ref="view_project"/>
+        </record>
+
+        <menuitem action="open_view_project_all" id="project.menu_projects" name="Projects" parent="project.menu_project_management" sequence="2"/>
+
+    </data>
+</openerp>
