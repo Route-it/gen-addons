@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<!--         <record id="open_view_project_all" model="ir.actions.act_window"> -->
+<!--             <field name="name">Projectos</field> -->
+<!--             <field name="res_model">project.project</field> -->
+<!--             <field name="view_type">form</field> -->
+<!--             <field name="view_id" ref="project.view_project_kanban"/> -->
+<!--             <field name="domain">[]</field> -->
+<!--             <field name="view_mode">kanban,tree,form,gantt,graph</field> -->
+<!--             <field name="search_view_id" ref="project-genexa.view_project_project_filter"/> -->
+<!--             <field name="context">{'search_default_Current': 1}</field> -->
+<!--         </record> -->
+
+<!--         <record id="view_fleet_vehicle_planning_filter" model="ir.ui.view"> -->
+<!--             <field name="name">fleet.vehicle.planning.select</field> -->
+<!--             <field name="model">fleet.vehicle.planning</field> -->
+<!--             <field name="arch" type="xml"> -->
+<!--                 <search string="Buscar planificacion"> -->
+<!--                     <field name="fleet_vehicle_id" string="Vehiculo"/> -->
+<!--                     <separator/> -->
+<!--                     <filter string="Fecha de inicio" name="date_start" domain="[('date_start', '>', now)]"/> -->
+<!--                     <separator/> -->
+<!--                     <group expand="0" string="Group By"> -->
+<!--                         <filter string="Vehiculo" name="Vehiculo" context="{'group_by':'fleet_vehicle_id'}"/> -->
+<!--                     </group> -->
+<!--                 </search> -->
+<!--             </field> -->
+<!--         </record> -->
+
+
+
+        <record model='ir.actions.act_window' id='fleet_vehicle_planning_act'>
+            <field name="name">Planificacion de Vehiculos</field>
+            <field name="res_model">fleet.vehicle.planning</field>
+            <field name="view_type">form</field>
+<!--             <field name="view_id" ref="fleet_vehicle_planning_calendar"/> -->
+            <field name="view_mode">calendar,tree,form,gantt</field>
+<!--             <field name="search_view_id" ref="view_fleet_vehicle_planning_filter"/> -->
+<!--             <field name="help" type="html"> -->
+<!--               <p class="oe_view_nocontent_create"> -->
+<!--                 Click para crear una nueva entrada de agenda para un vehiculo. -->
+<!--               </p><p> -->
+<!--                 Podra visualizar la disponibilidad del vehiculo para otorgar turnos de trabajo. -->
+<!--             </p> -->
+<!--             </field> -->
+        </record>
+
+        <menuitem action="fleet_vehicle_planning_act" 
+					parent="fleet.fleet_vehicles" 
+					id="fleet_vehicle_planning_menu"/>
+        
+        
+        <!-- definicion de grupo para ocultar -->
+		<record id="hide" model="res.groups">
+		    <field name="name">Hide</field>
+		    <field name="comment">Hide.</field>
+		</record>
+
+		<!-- ocultando opciones de menu de flota -->
+        <menuitem action="fleet.fleet_vehicle_log_contract_act" parent="fleet.fleet_vehicles" id="fleet.fleet_vehicle_log_contract_menu" groups="hide"/>
+        <menuitem action="fleet.fleet_vehicle_odometer_act"  parent="fleet.fleet_vehicles" id="fleet.fleet_vehicle_odometer_menu" groups="hide"/>
+        <menuitem action="fleet.fleet_vehicle_log_fuel_act" parent="fleet.fleet_vehicles" id="fleet.fleet_vehicle_log_fuel_menu" groups="hide"/>
+        <menuitem action="fleet.fleet_vehicle_log_services_act" parent="fleet.fleet_vehicles" id="fleet.fleet_vehicle_log_services_menu" groups="hide"/>
+        <menuitem action="fleet.fleet_vehicle_costs_act"  parent="fleet.fleet_vehicles" id="fleet.fleet_vehicle_costs_menu" groups="hide"/>
+
+    </data>
+</openerp>
