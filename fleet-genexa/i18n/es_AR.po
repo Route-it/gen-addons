@@ -69,7 +69,7 @@ msgstr "Last Updated on"
 #. module: fleet-genexa
 #: view:fleet.vehicle.planning:fleet-genexa.fleet_vehicle_planning_tree
 msgid "Models"
-msgstr "Models"
+msgstr "Modelos"
 
 #. module: fleet-genexa
 #: view:fleet.vehicle.planning:fleet-genexa.fleet_vehicle_planning_form
@@ -100,3 +100,23 @@ msgstr "Vehiculo"
 msgid "ayuda"
 msgstr "ayuda"
 
+#. module: fleet
+#: field:fleet.vehicle.model,brand_id:0
+#: view:fleet.vehicle.model.brand:fleet.fleet_vehicle_model_brand_form
+#: view:fleet.vehicle.model.brand:fleet.fleet_vehicle_model_brand_tree
+msgid "Model Brand"
+msgstr "Marca"
+
+#. module: fleet
+#: view:fleet.vehicle:fleet.fleet_vehicle_search
+#: field:fleet.vehicle,model_id:0
+#: view:fleet.vehicle.model:fleet.fleet_vehicle_model_form
+msgid "Model"
+msgstr "Marca/Modelo"
+
+
+#. module: fleet
+#: model:ir.actions.act_window,name:fleet.fleet_vehicle_model_brand_act
+#: model:ir.ui.menu,name:fleet.fleet_vehicle_model_brand_menu
+msgid "Model brand of Vehicle"
+msgstr "Marcas de Vehiculos"

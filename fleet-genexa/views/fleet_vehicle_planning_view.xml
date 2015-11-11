@@ -28,6 +28,7 @@
 					<field name="fleet_vehicle_id" string="Vehiculo"/>
                     <field name="date_start" string="Fecha de inicio"/>
                     <field name="duration_days" string="Duracion (dias)"/>
+                    <field name="project_id" string="Proyecto asociado"/>
                 </tree>
             </field>
         </record>
@@ -52,6 +53,10 @@
                             	<div>
         	                    	<field name="duration_days" string="Duracion (Dias)"/>
                             	</div>
+                            	<label for="project_id"/>
+                            	<div>
+        	                    	<field name="project_id" string="Proyecto asociado"/>
+                            	</div>
                             </group>
                         </group>
                     </sheet>
@@ -67,10 +72,11 @@
                  <calendar string="Planificacion de Flota" all_day="all_day" event_open_popup="True" 
                  			color="fleet_vehicle_id" date_start="date_start" 
                  			date_delay="duration_days_calendar"
-                 			display="Vehiculo [fleet_vehicle_id] ;  Dias [duration_days]" >
+                 			display="[fleet_vehicle_id] ; [project_id] ; Duracion [duration_days];" >
 	                <field name="fleet_vehicle_id"/>
     	            <field name="duration_days_calendar"/>
     	            <field name="duration_days"/>
+    	            <field name="project_id"/>
                 </calendar>
             
 			</field>

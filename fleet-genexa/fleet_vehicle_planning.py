@@ -25,7 +25,9 @@ class fleet_vehicle_planning(osv.osv):
                 'date_start': fields.date('Fecha Inicio', select=True, copy=False,required=True),
                 'duration_days':fields.integer('Duracion en dias',help="ayuda",required=True),
                 'all_day':fields.boolean('Todo el dia',help="ayuda",default=True),
-                'duration_days_calendar': fields.function (_calendar_duration,type='integer', string="Duracion",help="ayuda")
+                'duration_days_calendar': fields.function (_calendar_duration,type='integer', string="Duracion",help="ayuda"),
+                'project_id': fields.many2one('project.project', 'Proyecto', help='ayuda',ondelete="set null",required=True,
+                                              domain=[('state', 'not in', ['presupuestar','terminar','cobrar','cerrado'])])
 
                 #'date_end': fields.datetime('Fecha Fin', select=True, copy=False),
                 #'duration_kanban':fields.function (_calcular_duracion_gantt,type='Integer'),

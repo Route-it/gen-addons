@@ -50,8 +50,20 @@
         <menuitem action="fleet_vehicle_planning_act" 
 					parent="fleet.fleet_vehicles" 
 					id="fleet_vehicle_planning_menu"/>
-
         
+        
+        <!-- definicion de grupo para ocultar -->
+		<record id="hide" model="res.groups">
+		    <field name="name">Hide</field>
+		    <field name="comment">Hide.</field>
+		</record>
+
+		<!-- ocultando opciones de menu de flota -->
+        <menuitem action="fleet.fleet_vehicle_log_contract_act" parent="fleet.fleet_vehicles" id="fleet.fleet_vehicle_log_contract_menu" groups="hide"/>
+        <menuitem action="fleet.fleet_vehicle_odometer_act"  parent="fleet.fleet_vehicles" id="fleet.fleet_vehicle_odometer_menu" groups="hide"/>
+        <menuitem action="fleet.fleet_vehicle_log_fuel_act" parent="fleet.fleet_vehicles" id="fleet.fleet_vehicle_log_fuel_menu" groups="hide"/>
+        <menuitem action="fleet.fleet_vehicle_log_services_act" parent="fleet.fleet_vehicles" id="fleet.fleet_vehicle_log_services_menu" groups="hide"/>
+        <menuitem action="fleet.fleet_vehicle_costs_act"  parent="fleet.fleet_vehicles" id="fleet.fleet_vehicle_costs_menu" groups="hide"/>
 
     </data>
 </openerp>
