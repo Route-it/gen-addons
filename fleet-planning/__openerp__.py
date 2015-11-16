@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Genexa Fleet Vehicle Planning",
+    'name': "Fleet Vehicle Planning",
 
     'summary': """
         Planificacion de vehiculos. Visualizacion en calendario y Gantt""",

@@ -21,7 +21,29 @@
             <field name="view_id" ref="view_project"/>
         </record>
 
-        <menuitem action="open_view_project_all" id="project.menu_projects" name="Projects" parent="project.menu_project_management" sequence="2"/>
+        <menuitem action="open_view_project_all" id="project.menu_projects" name="Projectos" parent="project.menu_project_management" sequence="2"/>
+        
+        
+		<record id="open_view_project_type" model="ir.actions.act_window">
+            <field name="name">Tipo de Projectos</field>
+            <field name="res_model">project.project.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem action="open_view_project_type" id="project.menu_project_type" name="Tipos de Projectos" parent="base.menu_definitions"/>
+
+
+		<record id="open_view_project_type_task" model="ir.actions.act_window">
+            <field name="name">Tareas por defecto</field>
+            <field name="res_model">project.project.type.task</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem action="open_view_project_type_task" id="project.menu_project_type_task" name="Tareas por defecto" parent="base.menu_definitions"/>
+
 
     </data>
 </openerp>

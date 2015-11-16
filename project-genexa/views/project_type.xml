@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Task -->
+
+        <record id="view_project_type_form" model="ir.ui.view">
+            <field name="name">project.project.type.form</field>
+            <field name="model">project.project.type</field>
+            <field name="mode">primary</field>
+            
+            <field name="arch" type="xml">
+                <form string="Tipo de Proyecto">
+                    <sheet string="Tipo">
+	                    <group>
+	                        <field name="name" String="Nombre legible"/>
+	                        <field name="code" String="Codigo identificatorio"/>
+	                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_project_type_task_form" model="ir.ui.view">
+            <field name="name">project.project.type.task.form</field>
+            <field name="model">project.project.type.task</field>
+            <field name="mode">primary</field>
+            
+            <field name="arch" type="xml">
+                <form string="Tareas por defecto de proyectos">
+                    <sheet string="Tareas por defecto">
+	                    <group>
+	                        <field name="type" String="Tipo de proyecto" />
+	                        <field name="state_project" String="Estado de proyecto" widget="selection"/>
+	                        <field name="tasks" String="Tareas" widget="many2many_kanban">
+	                        <kanban>
+						        <field name="name"/>
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div style="position: relative">
+                                            <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+                                            <div class="oe_module_vignette">
+                                                <div class="oe_module_desc">
+                                                    <field name="name"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+						    </kanban>
+						    
+	                        </field>
+	                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

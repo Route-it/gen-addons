@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Genexa Fleet Vehicle Expirations",
+    'name': "Fleet Vehicle Expirations",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        Administracion de vencimientos de documentacion/recursos de los vehiculos.
+        """,
 
     'description': """
-        Administracion de vencimientos de los vehiculos.
+        Administracion de vencimientos de los vehiculos. Estos vencimientos como por ej, seguros, patente, 
+        habilitaciones, permiten tener en regla los vehiculos para el trabajo diario.
     """,
 
     'author': "Route IT",
@@ -25,7 +26,7 @@
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        'views/fleet_vehicle_planning_view.xml',
+        'views/fleet_vehicle_expiration_view.xml',
         'views/menu.xml'
     ],
     # only loaded in demonstration mode

@@ -68,18 +68,22 @@
                 <sheet string="Project">
                     <field name="analytic_account_id" invisible="1" required="0"/>
                     <div class="oe_title">
-                        <label for="name" class="oe_edit_only" string="Project Name"/>
-                        <h1>
-                            <field name="name" string="Project Name"/>
-                        </h1>
-                        <div name="options_active">
-                            <field name="use_tasks" class="oe_inline"/>
-                            <label for="use_tasks" string="Use Tasks"/>
-                        </div>
+                        <label for="sequence" class="oe_edit_only" string="Project Name"/>
+                        
+                        	pr - 15 - <field name="sequence" readonly="True"/> - <field name="type_project_id" string="Tipo de proyecto" options="{'no_create_edit': True}"/> - 
+                        	<field name="name" string="Project Name"/>
+                        	- <field name="partner_id" on_change="onchange_partner_id(partner_id)" string="Customer"/>
+                        	
+<!--                         <div name="options_active"> -->
+                            <field name="use_tasks" class="oe_inline"  attrs="{'invisible':True}"/>
+<!--                             <label for="use_tasks" string="Use Tasks"/> -->
+<!--                         </div> -->
                     </div>
                     <div class="oe_right oe_button_box" name="buttons" groups="base.group_user">
-                         <button class="oe_inline oe_stat_button" type="action" attrs="{'invisible':[('use_tasks','=',False)]}"
-                            name="Tasks" icon="fa-tasks">
+<!--                           attrs="{'invisible':[('use_tasks','=',False)]}" -->
+<!--  						attrs="{'invisible':[('use_tasks','=', 0)]}" -->
+ 						<button class="oe_inline oe_stat_button" type="action" 
+                            name="%(project.act_project_project_2_project_task_all)d" icon="fa-tasks">
                             <field string="Tasks" name="task_count" widget="statinfo"/>
                         </button>
                         <button  class="oe_inline oe_stat_button" name="attachment_tree_view"  type="object" icon="fa-files-o">
@@ -92,12 +96,11 @@
                                     attrs="{'readonly':[('state','in',['cerrado'])]}"
                                     context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'project.group_project_manager']}"/>
                             <newline/>
-                            <field name="partner_id" on_change="onchange_partner_id(partner_id)" string="Customer"/>
                         </group>
-                            <p attrs="{'invisible': [('analytic_account_id','=',False)]}">
-                                To invoice or setup invoicing and renewal options, go to the related contract:
-                                <field name="analytic_account_id" readonly="1" required="0" class="oe_inline" nolabel="1"/>.
-                            </p>
+<!--                             <p attrs="{'invisible': [('analytic_account_id','=',False)]}"> -->
+<!--                                 To invoice or setup invoicing and renewal options, go to the related contract: -->
+<!--                                 <field name="analytic_account_id" readonly="1" required="0" class="oe_inline" nolabel="1"/>. -->
+<!--                             </p> -->
                         <group name="group_alias"
                                 attrs="{'invisible': [('alias_domain', '=', False)]}">
                             <label for="alias_name" string="Email Alias"/>
@@ -154,7 +157,8 @@
                                 <field name="parent_id" string="Parent" help="Append this project to another one using analytic accounts hierarchy" domain="[('id','!=',analytic_account_id)]" context="{'current_model': 'project.project'}" />
                             </group>
                         </page>
-                        <page string="Project Stages" attrs="{'invisible': [('use_tasks', '=', False)]}" name="project_stages">
+<!--                         attrs="{'invisible': [('use_tasks', '=', False)]}"  -->
+                        <page string="Project Stages" name="project_stages">
                              <field name="type_ids"/>
                         </page>
                     </notebook>

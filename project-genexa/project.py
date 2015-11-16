@@ -34,41 +34,61 @@ class project_project(osv.osv):
         'type_ids': fields.many2many('project.task.type', 'project_task_type_rel', 'project_id', 'type_id', 'Tasks Stages', states={'cerrado':[('readonly',True)]}),
         'state': fields.selection([('presupuestar', 'Presupuestar'),
                                    ('posible','Posible'),
-                                   ('arrancar','A Arrancar'),
+                                   ('arrancar','Arrancar'),
                                    ('terminar', 'Terminar'),
                                    ('cobrar','Cobrar'),
                                    ('cerrado','Cerrado')],
                                   'Status', required=True, copy=False),
-                
-    }
-
-    _defaults = {
-        'state': 'presupuestar'
+        'type_project_id': fields.many2one('project.project.type')        
     }
 
     def set_template(self, cr, uid, ids, context=None):
         self.setActive(cr, uid, ids, value=False, context=context)
         #return self.write(cr, uid, ids, {'state': 'presupuestar'}, context=context)
 
+
+    def addDefaultTask(self, cr, uid, ids,estado="presupuestar"):
+        ##crear nuevas task
+        for record in self.browse(cr, uid, ids):
+            typeTaskIds = self.pool.get('project.project.type.task').search(cr,uid,[('state_project','=','posible'),('type','=',record.type_project_id['id'])])
+        
+        
+            typeTask = self.pool.get('project.project.type.task')
+            
+            task_obj = self.pool['project.task']
+
+            for taskTemplate in typeTask.browse(cr,uid,typeTaskIds).tasks:
+                defaults = {'name': taskTemplate.name,'project_id':record.id,'reviewer_id':uid}
+                targetTask =  task_obj.create(cr, uid, defaults, context=context)
+
+
+
     def set_presupuestar(self, cr, uid, ids, context=None):
+        addDefaultTask(self, cr, uid, ids,'presupuestar')
         return self.write(cr, uid, ids, {'state': 'presupuestar'}, context=context)
 
     def set_posible(self, cr, uid, ids, context=None):
+        addDefaultTask(self, cr, uid, ids,'posible')
         return self.write(cr, uid, ids, {'state': 'posible'}, context=context)
 
     def set_arrancar(self, cr, uid, ids, context=None):
+        addDefaultTask(self, cr, uid, ids,'arrancar')
         return self.write(cr, uid, ids, {'state': 'arrancar'}, context=context)
 
     def set_terminar(self, cr, uid, ids, context=None):
+        addDefaultTask(self, cr, uid, ids,'terminar')
         return self.write(cr, uid, ids, {'state': 'terminar'}, context=context)
 
     def set_cobrar(self, cr, uid, ids, context=None):
+        addDefaultTask(self, cr, uid, ids,'cobrar')
         return self.write(cr, uid, ids, {'state': 'cobrar'}, context=context)
 
     def set_cerrado(self, cr, uid, ids, context=None):
+        addDefaultTask(self, cr, uid, ids,'cobrar')
         return self.write(cr, uid, ids, {'state': 'cerrado'}, context=context)
 
     def reset_project(self, cr, uid, ids, context=None):
+        #remove all task?
         return self.setActive(cr, uid, ids, value=True, context=context)
 
     def duplicate_template(self, cr, uid, ids, context=None):
@@ -132,7 +152,11 @@ class project_project(osv.osv):
             if child_ids:
                 self.setActive(cr, uid, child_ids, value, context=None)
         return True
-
+    
+    _defaults = {
+        'state': set_presupuestar
+        #'presupuestar'
+    }
 
 class project_task(osv.osv):
     _inherit = ['project.task']

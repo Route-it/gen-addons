@@ -25,6 +25,7 @@
         #'project_data.xml',
         'views/project_project_view.xml',
         'views/project_task_view.xml',
+        'views/project_type.xml',
         'views/menu.xml'
     ],
     # only loaded in demonstration mode
