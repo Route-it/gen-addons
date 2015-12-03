@@ -19,7 +19,35 @@
                 </form>
             </field>
         </record>
+        <record id="view_project_type_search" model="ir.ui.view">
+            <field name="name">project.project.type.tree</field>
+            <field name="model">project.project.type</field>
+            <field name="mode">primary</field>
+            
+            <field name="arch" type="xml">
+				<tree string="Tipos de Proyecto">
+                        <field name="name" String="Nombre legible"/>
+                        <field name="code" String="Codigo identificatorio"/>
+                </tree>
+            </field>
+        </record>
 
+        <record id="view_project_type_task_search" model="ir.ui.view">
+            <field name="name">project.project.type.task.tree</field>
+            <field name="model">project.project.type.task</field>
+            <field name="mode">primary</field>
+            
+            <field name="arch" type="xml">
+				<tree string="Tareas por defecto">
+	                        <field name="type" String="Tipo de proyecto" />
+	                        <field name="state_project" String="Estado de proyecto" widget="selection"/>
+	                        <field name="tasks" String="Tareas" widget="many2many"/>
+                </tree>
+            </field>
+        </record>
+            
+            
+            
         <record id="view_project_type_task_form" model="ir.ui.view">
             <field name="name">project.project.type.task.form</field>
             <field name="model">project.project.type.task</field>
@@ -37,7 +65,7 @@
                                 <templates>
                                     <t t-name="kanban-box">
                                         <div style="position: relative">
-                                            <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+                                        	<t t-if="widget.deletable"><a type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a></t>
                                             <div class="oe_module_vignette">
                                                 <div class="oe_module_desc">
                                                     <field name="name"/>

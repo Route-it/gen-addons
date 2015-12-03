@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>
+    <data>        
+   
+   
 
         <record id="open_view_project_all" model="ir.actions.act_window">
             <field name="name">Projectos</field>
@@ -21,18 +23,23 @@
             <field name="view_id" ref="view_project"/>
         </record>
 
-        <menuitem action="open_view_project_all" id="project.menu_projects" name="Projectos" parent="project.menu_project_management" sequence="2"/>
+        <menuitem action="open_view_project_all" id="project.menu_projects" name="Dashboard" parent="project.menu_project_management" sequence="1"/>
+        
+        <delete model="ir.ui.menu" id="project.menu_projects_config" />
         
         
 		<record id="open_view_project_type" model="ir.actions.act_window">
-            <field name="name">Tipo de Projectos</field>
+            <field name="name">Tipo de Proyectos</field>
             <field name="res_model">project.project.type</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_project_type_search"/>
+            
         </record>
         
         
-        <menuitem action="open_view_project_type" id="project.menu_project_type" name="Tipos de Projectos" parent="base.menu_definitions"/>
+        <menuitem action="open_view_project_type" id="project.menu_project_type" name="Tipos de Projectos" parent="project.menu_project_config"
+        		groups="base.group_configuration"/>
 
 
 		<record id="open_view_project_type_task" model="ir.actions.act_window">
@@ -40,9 +47,12 @@
             <field name="res_model">project.project.type.task</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_project_type_task_search"/>
+            
         </record>
         
-        <menuitem action="open_view_project_type_task" id="project.menu_project_type_task" name="Tareas por defecto" parent="base.menu_definitions"/>
+        <menuitem action="open_view_project_type_task" id="project.menu_project_type_task" name="Tareas por defecto" parent="project.menu_project_config"
+        		groups="base.group_configuration"/>
 
 
     </data>
