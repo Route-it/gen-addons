@@ -34,6 +34,8 @@ class project_project(osv.osv):
             projectTypeCode = ''
             partnerName = ''
             companyName = ''
+            year = record.start_date[2:4]
+
             if record.type_project_id:
                 projectTypeCode = record.type_project_id.code or ''
             if record.partner_id:
@@ -41,12 +43,14 @@ class project_project(osv.osv):
                     companyName = record.partner_id.name or ''
                 else:
                     partnerName = record.partner_id.name or ''
-                    if record.partner_id.commercial_partner_id:
+                    if record.partner_id.commercial_partner_id and record.partner_id.commercial_partner_id.name != partnerName:
                         companyName = record.partner_id.commercial_partner_id.name or ''
             
             companyName = ('-'+str(companyName)) if companyName else ''
             partnerName = ('-'+str(partnerName)) if partnerName else ''
-            result = str(date.today().year)  + '-' + str(record.id or '') + '-' + str(projectTypeCode) + '-PR-' + str(record.name) + companyName + partnerName  
+            projectName = ('-'+str(record.name)) if record.name else ''
+            nro_project = str(record.nro_proyecto_anual or '').zfill(3)
+            result = str(year)  + '-' + nro_project + '-' + str(projectTypeCode) + projectName + companyName + partnerName  
             res.append((record.id, result))
 
         return res
@@ -79,8 +83,17 @@ class project_project(osv.osv):
                                    ('cerrado','Cerrado')],
                                   'Status', required=True, copy=False),
         'type_project_id': fields.many2one('project.project.type'),        
-        'start_date': fields.date(string="Fecha de Inicio")        
+        'start_date': fields.date(string="Fecha de Inicio",required=True),        
+        'nro_proyecto_anual': fields.integer(string="Nro Proyecto",required=True)        
     }
+
+    _sql_constraints = [
+            ('nro_proyecto_anual', 'unique(nro_proyecto_anual)', 'El numero de proyecto debe ser unico'),
+    ]
+
+    def _get_default_project_stages(self, cr, uid, ids, context=None):
+            return self.pool.get('project.task.type').search(cr, uid, [], context=context)
+
 
     _defaults = {
         'active': True,
@@ -93,12 +106,43 @@ class project_project(osv.osv):
         'user_id': lambda self,cr,uid,ctx: uid,
         'alias_model': 'project.task',
         'privacy_visibility': 'employees',
-    }
+        'type_ids':  _get_default_project_stages
+    } 
+
+
+
 
 
     def set_template(self, cr, uid, ids, context=None):
         self.setActive(cr, uid, ids, value=False, context=context)
         #return self.write(cr, uid, ids, {'state': 'presupuestar'}, context=context)
+
+
+    #@api.model
+    #@api.returns('self', lambda value:value.id)
+    #def create(self, vals):
+    def create(self, cr, uid, vals, context=None):
+
+        year = vals['start_date'][:4]
+
+        year_down = year+'-01-01'
+        year_up = year+'-12-31'
+
+        projects_ids = self.pool.get('project.project').search(cr,uid,[("start_date",">",str(year_down)),("start_date","<=",str(year_up))])
+        
+        vals['nro_proyecto_anual'] = 0
+        for record in self.browse(cr, uid, projects_ids, None):
+            if (vals['nro_proyecto_anual'] < record.nro_proyecto_anual):
+                vals['nro_proyecto_anual'] = record.nro_proyecto_anual
+                
+        
+        vals['nro_proyecto_anual'] = vals['nro_proyecto_anual'] +1  
+
+        project_id = super(project_project, self).create(cr,uid,vals,context)
+        self.addDefaultTask(self, cr, uid, [project_id], 'presupuestar')
+
+        return project_id
+        #return super.create(self,None,None, vals)
 
 
     def addDefaultTask(self, selfparam, cr, uid, ids,estado='presupuestar'):
