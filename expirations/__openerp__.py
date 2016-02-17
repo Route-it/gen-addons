@@ -20,12 +20,12 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base','calendar'],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        'data/cron_data.xml',
+        'data/data.xml',
         'views.xml'
     ],
     # only loaded in demonstration mode

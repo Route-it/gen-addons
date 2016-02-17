@@ -30,4 +30,5 @@
     ],
     # only loaded in demonstration mode
     'demo': ['project_demo.xml'],
+    'css': ['static/src/css/genexa.css'],
 }
