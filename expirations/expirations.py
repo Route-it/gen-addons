@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 
 def _models_get(self):
     model_obj = self.env['ir.model'] 
-    model_list = model_obj.search(['|',('model', '=', 'res.partner'),('model','=','fleet.vehicle')])
+    model_list = model_obj.search([('model', 'in', ('res.partner','fleet.vehicle','hr.employee','ir.attachment'))])
     #('model','=','res.users'),'|',('model','=','hr.employee'),
     
     return [(model.model, model.name) for model in model_list]

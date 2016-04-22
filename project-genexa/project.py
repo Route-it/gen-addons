@@ -40,11 +40,11 @@ class project_project(osv.osv):
                 projectTypeCode = record.type_project_id.code or ''
             if record.partner_id:
                 if record.partner_id.is_company:
-                    companyName = record.partner_id.name or ''
+                    companyName = record.partner_id.name.encode('utf8') or ''
                 else:
-                    partnerName = record.partner_id.name or ''
+                    partnerName = record.partner_id.name.encode('utf8') or ''
                     if record.partner_id.commercial_partner_id and record.partner_id.commercial_partner_id.name != partnerName:
-                        companyName = record.partner_id.commercial_partner_id.name or ''
+                        companyName = record.partner_id.commercial_partner_id.name.encode('utf8') or ''
             
             companyName = ('-'+str(companyName)) if companyName else ''
             partnerName = ('-'+str(partnerName)) if partnerName else ''

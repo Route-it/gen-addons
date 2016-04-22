@@ -115,9 +115,10 @@
             <field name="arch" type="xml" >
             
              <tree position="replace">
-	             <tree decoration-bf="message_needaction==True" decoration-info="state in ('presupuestar')" decoration-muted="state in ('cerrado')" string="Proyecto">
+	             <tree decoration-bf="message_needaction==True" decoration-danger="start_date" decoration-info="state in ('presupuestar')" decoration-muted="state in ('cerrado')" string="Proyecto">
 	                    <field name="sequence" widget="handle"/>
-	                    <field name="message_needaction" invisible="1"/>
+	                    <field name="nro_proyecto_anual"/>
+			    <field name="message_needaction" invisible="1"/>
 	                    <field name="nombre_completo" />
 	                    <field name="user_ids"/>
 	                    <field name="tasks" />
