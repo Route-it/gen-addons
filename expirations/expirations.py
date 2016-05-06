@@ -133,10 +133,10 @@ class expirations(models.Model):
         return {'value': value}
     
     
-    @api.onchange('partner_ids') 
-    def onchange_partners(self):
-        self.onchange_partner_ids(self.partner_ids)
-        #self.calendar_event_id.onchange_partner_ids(self.partner_ids)
+#    @api.onchange('partner_ids') 
+#    def onchange_partners(self):
+#        self.onchange_partner_ids(self.partner_ids)
+#	  self.calendar_event_id.onchange_partner_ids(self.partner_ids)
         
             
     @api.multi
