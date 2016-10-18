@@ -45,6 +45,6 @@ class project_project_type_task_definition(osv.osv):
     _name = 'project.project.type.task.definition'
 
     _columns = {
-                'name': fields.char()
+                'name': fields.char(string='Nombre')
     }
     

@@ -23,6 +23,7 @@
     'data': [
         # 'security/ir.model.access.csv',
         #'project_data.xml',
+        'views/dashboard_templates.xml',
         'views/project_project_view.xml',
         'views/project_task_view.xml',
         'views/project_type.xml',
@@ -30,4 +31,5 @@
     ],
     # only loaded in demonstration mode
     'demo': ['project_demo.xml'],
+    'css': ['static/src/css/genexa.css'],
 }
