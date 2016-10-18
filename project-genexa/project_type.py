@@ -29,8 +29,8 @@ class project_project_type(osv.osv):
     _name = "project.project.type"
 
     _columns = {
-                'name' : fields.char(),
-                'code' : fields.char()
+                'name' : fields.char(string="Nombre Legible"),
+                'code' : fields.char(string="Codigo identificatorio")
     }
     
     

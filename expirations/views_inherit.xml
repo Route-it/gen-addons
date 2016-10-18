@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="expirations.list">
+      <field name="name">Lista de vencimientos</field>
+      <field name="model">calendar.event</field>
+      <field name="inherit_id" ref="calendar.view_calendar_event_tree" />
+      <field name="arch" type="xml">
+          	<field name="name" position="replace">
+	          	<field name="name" string="Asunto"/>
+				<field name="res_id" />
+	         	<field name="start_date" string="Vencimiento"/>
+			</field>
+			<field name="start" position="replace">asd</field>
+			<field name="stop" position="replace">asd</field>
+			<field name="duration" position="replace">asd</field>
+			<field name="partner_ids" position="replace">
+				<field name="partner_ids" string="Responsable"/>
+			</field>
+			
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="expirations.expiration_form">
+      <field name="name">Vencimiento</field>
+      <field name="model">calendar.event</field>
+      <field name="inherit_id" ref="calendar.view_calendar_event_form" />
+      <field name="arch" type="xml">
+      	
+      	<label for="name" position="replace">
+      		<label for="name" string="Asunto"></label> 
+      	</label>
+		<field name="name" position="replace">
+			<field name="name" placeholder="E.j. Carnet de conducir"/>      	
+		</field>      	
+      	
+      	<label for="partner_ids" class="oe_edit_only" position="replace">
+      		<label for="partner_ids" string="Responsables"/>
+      	</label>
+<!-- 		<field name="partner_ids" position="replace">asdasd</field> -->
+      	
+		<field name="allday" position="replace">
+			<field name="allday" invisible="1"></field>
+		</field>
+		<field name="categ_ids" position="replace">
+			<field name="categ_ids" invisible="1"></field>
+		</field>
+<!-- 		<field name="location" position="replace"> -->
+<!-- 			<field name="location" invisible="1"></field> -->
+<!-- 		</field> -->
+
+        <field name="stop_date" position="replace">
+        	<field name="stop_date" invisible="1"/>
+        </field>
+        
+		<field name="start_date" position="replace">
+			<field name="start_date" string="Fecha de vencimiento" />
+		</field>
+
+			<notebook position="before">
+	          	<group>
+	          	<group>
+				<field name="res_id" string="Recurso involucrado" domain="[('customer','=',True)]"/>
+	          	</group>
+	          	</group>
+	          </notebook>
+        <field name="class" position="replace">asdasd</field>
+        <field name="show_as" position="replace">asdasd</field>
+      </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="expirations.expiration_form2">
+      <field name="name">Dialogo Vencimiento</field>
+      <field name="model">calendar.event</field>
+      <field name="inherit_id" ref="calendar.view_calendar_event_form_popup" />
+      <field name="arch" type="xml">
+			<field name="allday" position="replace">
+				<field name="allday" class="oe_inline" invisible="1"/>
+			</field>
+			<field name="partner_ids" position="replace">
+				<field name="partner_ids" widget="many2manyattendee" string="Responsables"/>
+			</field>
+			<field name="categ_ids" position="replace">
+				<field name="categ_ids" invisible="1"></field>
+			</field>
+	  </field>
+	 </record>
+
+
+    <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="expirations.event_action_window">
+      <field name="name">Vencimientos</field>
+      <field name="res_model">calendar.event</field>
+      <field name="view_mode">tree,form,calendar</field>
+      <field name="view_id" ref="expirations.expiration_form"></field>
+    </record>
+
+    <record model="ir.actions.act_window" id="expirations.alarm_action_window">
+      <field name="name">Recordatorios</field>
+      <field name="res_model">calendar.alarm</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  
+    <menuitem name="Vencimientos" id="expirations.menu_root"/>
+    <menuitem name="Vencimientos" id="expirations.menu_1" parent="expirations.menu_root"/>
+    <menuitem name="List" id="expirations.menu_1_list" parent="expirations.menu_1"
+              action="expirations.event_action_window"/>
+
+    <menuitem name="Recordatorios" id="expirations.menu_2" parent="expirations.menu_root"
+              action="expirations.alarm_action_window"/>
+
+	
+
+
+  </data>
+</openerp>

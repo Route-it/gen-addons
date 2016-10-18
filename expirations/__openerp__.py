@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Fleet Vehicle Expirations",
+    'name': "expirations",
 
     'summary': """
-        Administracion de vencimientos de documentacion/recursos de los vehiculos.
-        """,
+        Short (1 phrase/line) summary of the module's purpose, used as
+        subtitle on modules listing or apps.openerp.com""",
 
     'description': """
-        Administracion de vencimientos de los vehiculos. Estos vencimientos como por ej, seguros, patente, 
-        habilitaciones, permiten tener en regla los vehiculos para el trabajo diario.
+        Long description of module's purpose
     """,
 
     'author': "Route IT",
@@ -17,17 +16,17 @@
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/master/openerp/addons/base/module/module_data.xml
     # for the full list
-    'category': 'Managing vehicles and contracts',
+    'category': 'Uncategorized',
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['fleet'],
+    'depends': ['base','calendar'],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        'views/fleet_vehicle_expiration_view.xml',
-        'views/menu.xml'
+        'data/data.xml',
+        'views.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

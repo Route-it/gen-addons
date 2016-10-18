@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="1">
+        <record model="ir.cron" id="check_expirations">
+            <field name="name">Verificar proximidad de eventos a vencer</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"></field>
+            <field eval="'expirations.advice'" name="model"/>
+            <field eval="'exec_advice'" name="function"/>
+        </record>
+    </data>
+</openerp>

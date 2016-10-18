@@ -21,17 +21,60 @@
 
 from datetime import datetime, date
 import time
-
+from openerp import models, api
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 class project_project(osv.osv):
     _inherit = 'project.project'
+
+    def compute_name(self,  cr, uid, ids,name,args,context):
+        res = []
+        for record in self.browse(cr, uid, ids, context=context):
+            projectTypeCode = ''
+            partnerName = ''
+            companyName = ''
+            year = record.start_date[2:4]
+
+            if record.type_project_id:
+                projectTypeCode = record.type_project_id.code or ''
+            if record.partner_id:
+                if record.partner_id.is_company:
+                    companyName = record.partner_id.name.encode('utf8') or ''
+                else:
+                    partnerName = record.partner_id.name.encode('utf8') or ''
+                    if record.partner_id.commercial_partner_id and record.partner_id.commercial_partner_id.name != partnerName:
+                        companyName = record.partner_id.commercial_partner_id.name.encode('utf8') or ''
+            
+            companyName = ('-'+str(companyName)) if companyName else ''
+            partnerName = ('-'+str(partnerName)) if partnerName else ''
+            projectName = ('-'+str(record.name)) if record.name else ''
+            nro_project = str(record.nro_proyecto_anual or '').zfill(3)
+            result = str(year)  + '-' + nro_project + '-' + str(projectTypeCode) + projectName + companyName + partnerName  
+            res.append((record.id, result))
+
+        return res
+    
+    
+    def name_get(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        if isinstance(ids, (int, long)):
+            ids = [ids]
+    
+        res = []
+        for record in self.browse(cr, uid, ids, context=context):
+            res.append((record.id, record.nombre_completo))
+        
+        return res
+    
+    
     _columns = {
-        'members': fields.many2many('res.users', 'project_user_rel', 'project_id', 'uid', 'Project Members',
-            help="Project's members are users who can have an access to the tasks related to this project.", states={'cerrado':[('readonly',True)]}),
-        'resource_calendar_id': fields.many2one('resource.calendar', 'Working Time', help="Timetable working hours to adjust the gantt diagram report", states={'cerrado':[('readonly',True)]} ),
+        'nombre_completo': fields.function (compute_name, string="Nombre de Proyecto",type='char',help="ayuda"),
+        'resource_calendar_id': fields.many2one('resource.calendar', 'Working Time', help="Timetable working hours to adjust the gantt diagram report", 
+                                                states={'cerrado':[('readonly',True)]} ),
         'type_ids': fields.many2many('project.task.type', 'project_task_type_rel', 'project_id', 'type_id', 'Tasks Stages', states={'cerrado':[('readonly',True)]}),
+        'user_ids': fields.many2many('res.users', 'project_user_type_rel', 'project_id', 'user_id', 'Project Managers', states={'cerrado':[('readonly',True)]}),
         'state': fields.selection([('presupuestar', 'Presupuestar'),
                                    ('posible','Posible'),
                                    ('arrancar','Arrancar'),
@@ -39,52 +82,107 @@ class project_project(osv.osv):
                                    ('cobrar','Cobrar'),
                                    ('cerrado','Cerrado')],
                                   'Status', required=True, copy=False),
-        'type_project_id': fields.many2one('project.project.type')        
+        'type_project_id': fields.many2one('project.project.type'),        
+        'start_date': fields.date(string="Fecha de Inicio",required=True),        
+        'nro_proyecto_anual': fields.integer(string="Nro Proyecto",required=True)        
     }
+
+    _sql_constraints = [
+            ('nro_proyecto_anual', 'unique(nro_proyecto_anual)', 'El numero de proyecto debe ser unico'),
+    ]
+
+    def _get_default_project_stages(self, cr, uid, ids, context=None):
+            return self.pool.get('project.task.type').search(cr, uid, [], context=context)
+
+
+    _defaults = {
+        'active': True,
+        'type': 'contract',
+        'use_tasks': True,
+        'label_tasks': 'Tareas',
+        'state': 'presupuestar',
+        'sequence': 10,
+        'start_date': fields.datetime.now(),
+        'user_id': lambda self,cr,uid,ctx: uid,
+        'alias_model': 'project.task',
+        'privacy_visibility': 'employees',
+        'type_ids':  _get_default_project_stages
+    } 
+
+
+
+
 
     def set_template(self, cr, uid, ids, context=None):
         self.setActive(cr, uid, ids, value=False, context=context)
         #return self.write(cr, uid, ids, {'state': 'presupuestar'}, context=context)
 
 
-    def addDefaultTask(self, cr, uid, ids,estado="presupuestar"):
-        ##crear nuevas task
-        for record in self.browse(cr, uid, ids):
-            typeTaskIds = self.pool.get('project.project.type.task').search(cr,uid,[('state_project','=','posible'),('type','=',record.type_project_id['id'])])
+    #@api.model
+    #@api.returns('self', lambda value:value.id)
+    #def create(self, vals):
+    def create(self, cr, uid, vals, context=None):
+
+        year = vals['start_date'][:4]
+
+        year_down = year+'-01-01'
+        year_up = year+'-12-31'
+
+        projects_ids = self.pool.get('project.project').search(cr,uid,[("start_date",">",str(year_down)),("start_date","<=",str(year_up))])
         
+        vals['nro_proyecto_anual'] = 0
+        for record in self.browse(cr, uid, projects_ids, None):
+            if (vals['nro_proyecto_anual'] < record.nro_proyecto_anual):
+                vals['nro_proyecto_anual'] = record.nro_proyecto_anual
+                
+        
+        vals['nro_proyecto_anual'] = vals['nro_proyecto_anual'] +1  
+
+        project_id = super(project_project, self).create(cr,uid,vals,context)
+        self.addDefaultTask(self, cr, uid, [project_id], 'presupuestar')
+
+        return project_id
+        #return super.create(self,None,None, vals)
+
+
+    def addDefaultTask(self, selfparam, cr, uid, ids,estado='presupuestar'):
+        ##crear nuevas task
+        for record in self.browse(cr, uid, ids, None):
+            typeTaskIds = self.pool.get('project.project.type.task').search(cr,uid,[('state_project','=',estado),('type','=',record.type_project_id['id'])])
         
             typeTask = self.pool.get('project.project.type.task')
             
             task_obj = self.pool['project.task']
 
             for taskTemplate in typeTask.browse(cr,uid,typeTaskIds).tasks:
-                defaults = {'name': taskTemplate.name,'project_id':record.id,'reviewer_id':uid}
-                targetTask =  task_obj.create(cr, uid, defaults, context=context)
-
+                defaults = {'name': taskTemplate.name,'project_id':record.id}
+                task_exist = task_obj.search(cr, uid, [('project_id','=', record.id),('name','=',taskTemplate.name)])
+                if not task_exist:
+                    targetTask =  task_obj.create(cr, uid, defaults, None)
 
 
     def set_presupuestar(self, cr, uid, ids, context=None):
-        addDefaultTask(self, cr, uid, ids,'presupuestar')
+        self.addDefaultTask(self, cr, uid, ids, 'presupuestar')
         return self.write(cr, uid, ids, {'state': 'presupuestar'}, context=context)
 
     def set_posible(self, cr, uid, ids, context=None):
-        addDefaultTask(self, cr, uid, ids,'posible')
+        self.addDefaultTask(self, cr, uid, ids,'posible')
         return self.write(cr, uid, ids, {'state': 'posible'}, context=context)
 
     def set_arrancar(self, cr, uid, ids, context=None):
-        addDefaultTask(self, cr, uid, ids,'arrancar')
+        self.addDefaultTask(self, cr, uid, ids,'arrancar')
         return self.write(cr, uid, ids, {'state': 'arrancar'}, context=context)
 
     def set_terminar(self, cr, uid, ids, context=None):
-        addDefaultTask(self, cr, uid, ids,'terminar')
+        self.addDefaultTask(self, cr, uid, ids,'terminar')
         return self.write(cr, uid, ids, {'state': 'terminar'}, context=context)
 
     def set_cobrar(self, cr, uid, ids, context=None):
-        addDefaultTask(self, cr, uid, ids,'cobrar')
+        self.addDefaultTask(self, cr, uid, ids,'cobrar')
         return self.write(cr, uid, ids, {'state': 'cobrar'}, context=context)
 
     def set_cerrado(self, cr, uid, ids, context=None):
-        addDefaultTask(self, cr, uid, ids,'cobrar')
+        self.addDefaultTask(self, cr, uid, ids,'cerrado')
         return self.write(cr, uid, ids, {'state': 'cerrado'}, context=context)
 
     def reset_project(self, cr, uid, ids, context=None):
@@ -96,7 +194,6 @@ class project_project(osv.osv):
         data_obj = self.pool.get('ir.model.data')
         result = []
         for proj in self.browse(cr, uid, ids, context=context):
-            parent_id = context.get('parent_id', False)
             context.update({'analytic_project_copy': True})
             new_date_start = time.strftime('%Y-%m-%d')
             new_date_end = False
@@ -109,14 +206,8 @@ class project_project(osv.osv):
                                     'name':_("%s (copy)") % (proj.name),
                                     'state':'presupuestar',
                                     'date_start':new_date_start,
-                                    'date':new_date_end,
-                                    'parent_id':parent_id}, context=context)
+                                    'date':new_date_end}, context=context)
             result.append(new_id)
-
-            child_ids = self.search(cr, uid, [('parent_id','=', proj.analytic_account_id.id)], context=context)
-            parent_id = self.read(cr, uid, new_id, ['analytic_account_id'])['analytic_account_id'][0]
-            if child_ids:
-                self.duplicate_template(cr, uid, child_ids, context={'parent_id': parent_id})
 
         if result and len(result):
             res_id = result[0]
@@ -136,7 +227,6 @@ class project_project(osv.osv):
                 'views': [(form_view['res_id'],'form'),(tree_view['res_id'],'tree')],
                 'type': 'ir.actions.act_window',
                 'search_view_id': search_view['res_id'],
-                'nodestroy': True
             }
 
     # set active value for a project, its sub projects and its tasks
@@ -153,10 +243,6 @@ class project_project(osv.osv):
                 self.setActive(cr, uid, child_ids, value, context=None)
         return True
     
-    _defaults = {
-        'state': set_presupuestar
-        #'presupuestar'
-    }
 
 class project_task(osv.osv):
     _inherit = ['project.task']
