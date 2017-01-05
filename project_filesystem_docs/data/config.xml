@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="1">
+        
+		<record model="project_filesystem_docs.project_filesystem_config" id="config1">
+			<field name="base_folder">//server/d</field>
+			<field name="cotizacion_folder">/cotizaciones/enviadas</field>
+			<field name="trabajos_folder">/trabajos</field>
+			<field name="base_document_folder">/Documentos Base</field>
+		</record>
+        
+    </data>
+</openerp>

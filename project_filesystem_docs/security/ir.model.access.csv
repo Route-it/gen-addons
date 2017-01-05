@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_filesystem_docs_project_filesystem_docs,project_filesystem_docs.project_filesystem_docs,model_project_filesystem_docs_project_filesystem_docs,,1,0,0,0

@@ -1,0 +1,33 @@
+<openerp>
+	<data>
+		<!-- explicit list view definition -->
+
+		<record id="edit_project_inherit" model="ir.ui.view">
+			<field name="name">project.project.form.inherit</field>
+			<field name="model">project.project</field>
+			<field name="inherit_id" ref="project-genexa.edit_project_inherit" />
+			<field name="arch" type="xml">
+			
+			     <div name="options_active" position="before">
+					<field name="base_doc_folder_exist" invisible="1" />
+			     	<button string="(Re)Copiar Documentos Base" type="object" name="copy_documents" attrs="{'invisible':['|',('state','in',['cerrado']),('base_doc_folder_exist','=','False')]}"/>
+			     	
+			     </div>
+				<div name="options_active" position="before">
+					<field name="project_folder_exist" invisible="1" />
+					<field name="cotizacion_folder_exist" invisible="1" />
+					<group col="5">
+								<field name="view_project_folder"/>
+								<button string="Crear Carpeta" type="object" name="create_project_folder" attrs="{'invisible':['|',('project_folder_exist','=',True),'|',('cotizacion_folder_exist','=',True),('state','in',['cerrado','presupuestar','posible'])]}"/>
+					</group>
+					<group col="5">
+								<field name="view_cotizacion_folder"/>
+								<button string="Crear Carpeta" type="object" name="create_cotizacion_folder" attrs="{'invisible':['|',('cotizacion_folder_exist','=',True),('state','in',['arrancar','terminar','cobrar','cerrado'])]}"/>
+					</group>
+				</div>
+
+			</field>
+
+		</record>
+	</data>
+</openerp>
